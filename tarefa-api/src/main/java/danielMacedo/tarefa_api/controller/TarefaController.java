@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/tarefa")
 @RequiredArgsConstructor
@@ -19,9 +21,13 @@ public class TarefaController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<Tarefa> buscarTarefaPorId(@RequestParam Integer id){
         return ResponseEntity.ok(_tarefaService.buscarTarefaPorId(id));
+    }
+    @GetMapping
+    public ResponseEntity<List<Tarefa>> listarTarefas(){
+        return ResponseEntity.ok(_tarefaService.listarTarefas());
     }
 
     @DeleteMapping

@@ -16,13 +16,13 @@ public class TarefaController {
     private final TarefaService _tarefaService;
 
     @PostMapping
-    public ResponseEntity<Void> salvarUsuario(@RequestBody Tarefa tarefa){
+    public ResponseEntity<Void> salvarTarefa(@RequestBody Tarefa tarefa){
         _tarefaService.salvarTarefa(tarefa);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Tarefa> buscarTarefaPorId(@RequestParam Integer id){
+    public ResponseEntity<Tarefa> buscarTarefaPorId(@PathVariable Integer id){
         return ResponseEntity.ok(_tarefaService.buscarTarefaPorId(id));
     }
     @GetMapping
@@ -30,15 +30,16 @@ public class TarefaController {
         return ResponseEntity.ok(_tarefaService.listarTarefas());
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deletarTarefaPorId(@RequestParam Integer id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarTarefaPorId(@PathVariable Integer id) {
         _tarefaService.deletarTarefaPorId(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Tarefa> substituirTarefa(
-            @RequestParam Integer id,
+            @PathVariable Integer id,
             @RequestBody Tarefa novaTarefa){
         _tarefaService.substituirTarefa(id, novaTarefa);
         return ResponseEntity.ok().build();

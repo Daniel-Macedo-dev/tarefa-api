@@ -25,6 +25,7 @@ public class TarefaController {
     public ResponseEntity<Tarefa> buscarTarefaPorId(@PathVariable Integer id){
         return ResponseEntity.ok(_tarefaService.buscarTarefaPorId(id));
     }
+
     @GetMapping
     public ResponseEntity<List<Tarefa>> listarTarefas(){
         return ResponseEntity.ok(_tarefaService.listarTarefas());
@@ -36,7 +37,6 @@ public class TarefaController {
         return ResponseEntity.noContent().build();
     }
 
-
     @PutMapping("/{id}")
     public ResponseEntity<Tarefa> substituirTarefa(
             @PathVariable Integer id,
@@ -44,9 +44,10 @@ public class TarefaController {
         _tarefaService.substituirTarefa(id, novaTarefa);
         return ResponseEntity.ok().build();
     }
+
     @PatchMapping("/{id}/status")
     public ResponseEntity<Tarefa> atualizarTarefa(
-            @RequestParam Integer id,
+            @PathVariable Integer id,
             @RequestBody Tarefa novaTarefa){
         _tarefaService.atualizarTarefa(id, novaTarefa);
         return ResponseEntity.ok().build();

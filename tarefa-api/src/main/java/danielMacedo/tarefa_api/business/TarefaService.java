@@ -20,7 +20,6 @@ public class TarefaService {
         return _tarefaRepository.findAll();
     }
 
-    //find by id
     public Tarefa buscarTarefaPorId(Integer _id){
         return _tarefaRepository.findById(_id).orElseThrow(
                 () -> new RuntimeException("id não encontrado")

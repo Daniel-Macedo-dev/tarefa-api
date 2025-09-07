@@ -45,7 +45,6 @@ public class TarefaService {
         return _tarefaRepository.saveAndFlush(tarefaBusca);
     }
 
-    //delete by id
     public void deletarTarefaPorId(Integer _id){
         _tarefaRepository.deleteById(_id);
     }

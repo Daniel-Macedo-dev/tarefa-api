@@ -17,7 +17,6 @@ public class TarefaService {
     public Tarefa salvarTarefa(Tarefa tarefa){
         return _tarefaRepository.saveAndFlush(tarefa);}
 
-    //findAll
     public List<Tarefa> listarTarefas(){
         return _tarefaRepository.findAll();
     }

@@ -26,7 +26,6 @@ public class TarefaService {
         );
     }
 
-    //update -> put e patch
     public Tarefa substituirTarefa(Integer _id, Tarefa novaTarefa){
         Tarefa tarefaBusca = _tarefaRepository.findById(_id).orElseThrow(
                 () -> new RuntimeException("id não encontrado"));

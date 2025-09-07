@@ -13,7 +13,6 @@ public class TarefaService {
 
     public TarefaService(TarefaRepository tarefaRepository) {_tarefaRepository = tarefaRepository;}
 
-    //save
     public Tarefa salvarTarefa(Tarefa tarefa){
         return _tarefaRepository.saveAndFlush(tarefa);}
 

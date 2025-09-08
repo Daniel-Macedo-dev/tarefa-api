@@ -36,7 +36,11 @@ A arquitetura está organizada em **camadas**:
 - **Buscar tarefa por ID** (`GET /tarefa/{id}`)  
 - **Remover tarefa por ID** (`DELETE /tarefa/{id}`)  
 - **Atualizar tarefa (substituição completa)** (`PUT /tarefa/{id}`)  
-- **Atualizar apenas o status da tarefa** (`PATCH /tarefa/{id}/status`)  
+- **Atualizar apenas o status da tarefa** (`PATCH /tarefa/{id}/status`)
+
+## 📄 Documentação OpenAPI
+O arquivo [`openapi.yaml`](openapi.yaml) contém a especificação completa da API de tarefas.
+  
 
 ## ▶️ Como rodar
 

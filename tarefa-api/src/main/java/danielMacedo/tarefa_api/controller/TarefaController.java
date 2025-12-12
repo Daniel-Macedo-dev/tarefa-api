@@ -28,7 +28,6 @@ public class TarefaController {
 
     @GetMapping
     public ResponseEntity<List<Tarefa>> listarTarefas(){
-
         return ResponseEntity.ok(_tarefaService.listarTarefas());
     }
 

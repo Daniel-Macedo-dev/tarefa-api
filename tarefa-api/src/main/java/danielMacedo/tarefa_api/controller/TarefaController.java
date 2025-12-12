@@ -23,6 +23,7 @@ public class TarefaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Tarefa> buscarTarefaPorId(@PathVariable Integer id){
+
         return ResponseEntity.ok(_tarefaService.buscarTarefaPorId(id));
     }
 

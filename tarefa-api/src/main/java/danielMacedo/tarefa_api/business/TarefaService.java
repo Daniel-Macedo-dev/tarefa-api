@@ -2,50 +2,54 @@ package danielMacedo.tarefa_api.business;
 
 import danielMacedo.tarefa_api.infrastructure.entities.Tarefa;
 import danielMacedo.tarefa_api.infrastructure.repository.TarefaRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class TarefaService {
 
-    private final TarefaRepository _tarefaRepository;
-
-    public TarefaService(TarefaRepository tarefaRepository) {_tarefaRepository = tarefaRepository;}
+    private final TarefaRepository tarefaRepository;
 
     public Tarefa salvarTarefa(Tarefa tarefa){
-        return _tarefaRepository.saveAndFlush(tarefa);}
-
-    public List<Tarefa> listarTarefas(){
-        return _tarefaRepository.findAll();
+        return tarefaRepository.saveAndFlush(tarefa);
     }
 
-    public Tarefa buscarTarefaPorId(Integer _id){
-        return _tarefaRepository.findById(_id).orElseThrow(
+    public List<Tarefa> listarTarefas(){
+        return tarefaRepository.findAll();
+    }
+
+    public Tarefa buscarTarefaPorId(Integer id){
+        return tarefaRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("id não encontrado")
         );
     }
 
-    public Tarefa substituirTarefa(Integer _id, Tarefa novaTarefa){
-        Tarefa tarefaBusca = _tarefaRepository.findById(_id).orElseThrow(
+    public Tarefa substituirTarefa(Integer id, Tarefa novaTarefa){
+        Tarefa tarefaBusca = tarefaRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("id não encontrado"));
         tarefaBusca.setTitulo(novaTarefa.getTitulo());
         tarefaBusca.setDescricao(novaTarefa.getDescricao());
         tarefaBusca.setStatus(novaTarefa.getStatus());
-        tarefaBusca.setDataCriacao(novaTarefa.getDataCriacao());
+        tarefaBusca.setCreateAt(novaTarefa.getCreateAt());
 
-        return _tarefaRepository.saveAndFlush(tarefaBusca);
+        return tarefaRepository.saveAndFlush(tarefaBusca);
     }
 
-    public Tarefa atualizarTarefa(Integer _id, Tarefa novaTarefa){
-        Tarefa tarefaBusca = _tarefaRepository.findById(_id).orElseThrow(
+    public Tarefa atualizarTarefa(Integer id, Tarefa tarefaAtualizada){
+        Tarefa tarefaBusca = tarefaRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("id não encontrado"));
-        tarefaBusca.setStatus(novaTarefa.getStatus());
+        tarefaBusca.setTitulo(tarefaAtualizada.getTitulo());
+        tarefaBusca.setDescricao(tarefaAtualizada.getDescricao());
 
-        return _tarefaRepository.saveAndFlush(tarefaBusca);
+        return tarefaRepository.saveAndFlush(tarefaBusca);
+    }
+    public void deletarTarefaPorId(Integer id){
+        tarefaRepository.deleteById(id);
     }
 
-    public void deletarTarefaPorId(Integer _id){
-        _tarefaRepository.deleteById(_id);
-    }
+
+
 }

@@ -1,6 +1,9 @@
 package danielMacedo.tarefa_api.controller;
 
 import danielMacedo.tarefa_api.business.TarefaService;
+import danielMacedo.tarefa_api.dto.TarefaCreateDTO;
+import danielMacedo.tarefa_api.dto.TarefaReplaceDTO;
+import danielMacedo.tarefa_api.dto.TarefaUpdateDTO;
 import danielMacedo.tarefa_api.infrastructure.entities.Tarefa;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,43 +16,38 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TarefaController {
 
-    private final TarefaService _tarefaService;
+    private final TarefaService tarefaService;
 
     @PostMapping
-    public ResponseEntity<Void> salvarTarefa(@RequestBody Tarefa tarefa){
-        _tarefaService.salvarTarefa(tarefa);
+    public ResponseEntity<Void> salvarTarefa(@RequestBody TarefaCreateDTO dto){
+        tarefaService.salvarTarefa(dto);
         return ResponseEntity.ok().build();
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<Tarefa> buscarTarefaPorId(@PathVariable Integer id){
-        return ResponseEntity.ok(_tarefaService.buscarTarefaPorId(id));
+        return ResponseEntity.ok(tarefaService.buscarTarefaPorId(id));
     }
-
     @GetMapping
     public ResponseEntity<List<Tarefa>> listarTarefas(){
-        return ResponseEntity.ok(_tarefaService.listarTarefas());
+        return ResponseEntity.ok(tarefaService.listarTarefas());
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarTarefaPorId(@PathVariable Integer id) {
-        _tarefaService.deletarTarefaPorId(id);
-        return ResponseEntity.noContent().build();
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<Tarefa> substituirTarefa(
             @PathVariable Integer id,
-            @RequestBody Tarefa novaTarefa){
-        _tarefaService.substituirTarefa(id, novaTarefa);
+            @RequestBody TarefaReplaceDTO dto){
+        Tarefa atualizada = tarefaService.substituirTarefa(id, dto);
         return ResponseEntity.ok().build();
     }
-
     @PatchMapping("/{id}/status")
     public ResponseEntity<Tarefa> atualizarTarefa(
             @PathVariable Integer id,
-            @RequestBody Tarefa novaTarefa){
-        _tarefaService.atualizarTarefa(id, novaTarefa);
+            @RequestBody TarefaUpdateDTO dto){
+        Tarefa atualizada = tarefaService.atualizarTarefa(id, dto);
         return ResponseEntity.ok().build();
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarTarefaPorId(@PathVariable Integer id){
+        tarefaService.deletarTarefaPorId(id);
+        return ResponseEntity.noContent().build();
     }
 }

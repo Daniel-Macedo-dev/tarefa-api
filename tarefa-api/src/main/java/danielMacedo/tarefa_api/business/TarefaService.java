@@ -1,5 +1,8 @@
 package danielMacedo.tarefa_api.business;
 
+import danielMacedo.tarefa_api.dto.TarefaCreateDTO;
+import danielMacedo.tarefa_api.dto.TarefaReplaceDTO;
+import danielMacedo.tarefa_api.dto.TarefaUpdateDTO;
 import danielMacedo.tarefa_api.infrastructure.entities.Tarefa;
 import danielMacedo.tarefa_api.infrastructure.repository.TarefaRepository;
 import lombok.AllArgsConstructor;
@@ -13,7 +16,12 @@ public class TarefaService {
 
     private final TarefaRepository tarefaRepository;
 
-    public Tarefa salvarTarefa(Tarefa tarefa){
+    public Tarefa salvarTarefa(TarefaCreateDTO dto){
+        Tarefa tarefa = new Tarefa();
+        tarefa.setTitulo(dto.titulo());
+        tarefa.setDescricao(dto.descricao());
+        tarefa.setStatus(false);
+
         return tarefaRepository.saveAndFlush(tarefa);
     }
 
@@ -27,29 +35,38 @@ public class TarefaService {
         );
     }
 
-    public Tarefa substituirTarefa(Integer id, Tarefa novaTarefa){
-        Tarefa tarefaBusca = tarefaRepository.findById(id).orElseThrow(
+    public Tarefa substituirTarefa(Integer id, TarefaReplaceDTO dto){
+        Tarefa tarefa = tarefaRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("id não encontrado"));
-        tarefaBusca.setTitulo(novaTarefa.getTitulo());
-        tarefaBusca.setDescricao(novaTarefa.getDescricao());
-        tarefaBusca.setStatus(novaTarefa.getStatus());
-        tarefaBusca.setCreateAt(novaTarefa.getCreateAt());
+        tarefa.setTitulo(dto.titulo());
+        tarefa.setDescricao(dto.descricao());
+        tarefa.setStatus(dto.status());
 
-        return tarefaRepository.saveAndFlush(tarefaBusca);
+        return tarefaRepository.saveAndFlush(tarefa);
     }
 
-    public Tarefa atualizarTarefa(Integer id, Tarefa tarefaAtualizada){
-        Tarefa tarefaBusca = tarefaRepository.findById(id).orElseThrow(
+    public Tarefa atualizarTarefa(Integer id, TarefaUpdateDTO dto){
+        Tarefa tarefa = tarefaRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("id não encontrado"));
-        tarefaBusca.setTitulo(tarefaAtualizada.getTitulo());
-        tarefaBusca.setDescricao(tarefaAtualizada.getDescricao());
-
-        return tarefaRepository.saveAndFlush(tarefaBusca);
+        if (dto.titulo()!=null){
+            if (dto.titulo().isBlank()){
+                throw new RuntimeException("Título não pode ser vazio");
+            }
+            tarefa.setTitulo(dto.titulo());
+        }
+        if(dto.descricao()!=null){
+            if(dto.descricao().isBlank()){
+                throw new RuntimeException("Descrição não pode ser vazia");
+            }
+            tarefa.setDescricao(dto.descricao());
+        }
+        if(dto.status()!=null){
+            tarefa.setStatus(dto.status());
+        }
+        return tarefaRepository.saveAndFlush(tarefa);
     }
+
     public void deletarTarefaPorId(Integer id){
         tarefaRepository.deleteById(id);
     }
-
-
-
 }

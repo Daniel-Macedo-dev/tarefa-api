@@ -3,6 +3,8 @@ package danielMacedo.tarefa_api.business;
 import danielMacedo.tarefa_api.dto.TarefaCreateDTO;
 import danielMacedo.tarefa_api.dto.TarefaReplaceDTO;
 import danielMacedo.tarefa_api.dto.TarefaUpdateDTO;
+import danielMacedo.tarefa_api.exceptions.BadRequestException;
+import danielMacedo.tarefa_api.exceptions.ResourceNotFoundException;
 import danielMacedo.tarefa_api.infrastructure.entities.Tarefa;
 import danielMacedo.tarefa_api.infrastructure.repository.TarefaRepository;
 import lombok.AllArgsConstructor;
@@ -35,14 +37,14 @@ public class TarefaService {
     @Transactional(readOnly = true)
     public Tarefa buscarTarefaPorId(Integer id){
         return tarefaRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("id não encontrado")
+                () -> new ResourceNotFoundException("id não encontrado")
         );
     }
 
     @Transactional
     public Tarefa substituirTarefa(Integer id, TarefaReplaceDTO dto){
         Tarefa tarefa = tarefaRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("id não encontrado"));
+                () -> new ResourceNotFoundException("id não encontrado"));
         tarefa.setTitulo(dto.titulo());
         tarefa.setDescricao(dto.descricao());
         tarefa.setStatus(dto.status());
@@ -56,13 +58,13 @@ public class TarefaService {
                 () -> new RuntimeException("id não encontrado"));
         if (dto.titulo()!=null){
             if (dto.titulo().isBlank()){
-                throw new RuntimeException("Título não pode ser vazio");
+                throw new BadRequestException("Título não pode ser vazio");
             }
             tarefa.setTitulo(dto.titulo());
         }
         if(dto.descricao()!=null){
             if(dto.descricao().isBlank()){
-                throw new RuntimeException("Descrição não pode ser vazia");
+                throw new BadRequestException("Descrição não pode ser vazia");
             }
             tarefa.setDescricao(dto.descricao());
         }
@@ -75,7 +77,7 @@ public class TarefaService {
     @Transactional
     public void deletarTarefaPorId(Integer id){
         if (!tarefaRepository.existsById(id)) {
-            throw new RuntimeException("id não encontrado");
+            throw new ResourceNotFoundException("id não encontrado");
         } else {
             tarefaRepository.deleteById(id);
         }

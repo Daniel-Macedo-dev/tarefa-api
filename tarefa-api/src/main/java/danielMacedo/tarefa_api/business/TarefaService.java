@@ -7,6 +7,7 @@ import danielMacedo.tarefa_api.infrastructure.entities.Tarefa;
 import danielMacedo.tarefa_api.infrastructure.repository.TarefaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,13 +17,14 @@ public class TarefaService {
 
     private final TarefaRepository tarefaRepository;
 
+    @Transactional
     public Tarefa salvarTarefa(TarefaCreateDTO dto){
         Tarefa tarefa = new Tarefa();
         tarefa.setTitulo(dto.titulo());
         tarefa.setDescricao(dto.descricao());
         tarefa.setStatus(false);
 
-        return tarefaRepository.saveAndFlush(tarefa);
+        return tarefaRepository.save(tarefa);
     }
 
     public List<Tarefa> listarTarefas(){

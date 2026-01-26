@@ -55,7 +55,7 @@ public class TarefaService {
     @Transactional
     public Tarefa atualizarTarefa(Integer id, TarefaUpdateDTO dto){
         Tarefa tarefa = tarefaRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("id não encontrado"));
+                () -> new ResourceNotFoundException("id não encontrado"));
         if (dto.titulo()!=null){
             if (dto.titulo().isBlank()){
                 throw new BadRequestException("Título não pode ser vazio");

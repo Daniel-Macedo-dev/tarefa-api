@@ -27,16 +27,19 @@ public class TarefaService {
         return tarefaRepository.save(tarefa);
     }
 
+    @Transactional(readOnly = true)
     public List<Tarefa> listarTarefas(){
         return tarefaRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Tarefa buscarTarefaPorId(Integer id){
         return tarefaRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("id não encontrado")
         );
     }
 
+    @Transactional
     public Tarefa substituirTarefa(Integer id, TarefaReplaceDTO dto){
         Tarefa tarefa = tarefaRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("id não encontrado"));
@@ -44,9 +47,10 @@ public class TarefaService {
         tarefa.setDescricao(dto.descricao());
         tarefa.setStatus(dto.status());
 
-        return tarefaRepository.saveAndFlush(tarefa);
+        return tarefa;
     }
 
+    @Transactional
     public Tarefa atualizarTarefa(Integer id, TarefaUpdateDTO dto){
         Tarefa tarefa = tarefaRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("id não encontrado"));
@@ -65,10 +69,14 @@ public class TarefaService {
         if(dto.status()!=null){
             tarefa.setStatus(dto.status());
         }
-        return tarefaRepository.saveAndFlush(tarefa);
+        return tarefa;
     }
 
+    @Transactional
     public void deletarTarefaPorId(Integer id){
+        if(!tarefaRepository.existsById(id)){
+            throw new RuntimeException("id não encontrado");
+        }
         tarefaRepository.deleteById(id);
     }
 }

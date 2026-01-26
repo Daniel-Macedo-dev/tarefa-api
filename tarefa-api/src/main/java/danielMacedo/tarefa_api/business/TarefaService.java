@@ -74,9 +74,10 @@ public class TarefaService {
 
     @Transactional
     public void deletarTarefaPorId(Integer id){
-        if(!tarefaRepository.existsById(id)){
+        if (!tarefaRepository.findById(id).isEmpty()) {
             throw new RuntimeException("id não encontrado");
+        } else {
+            tarefaRepository.deleteById(id);
         }
-        tarefaRepository.deleteById(id);
     }
 }

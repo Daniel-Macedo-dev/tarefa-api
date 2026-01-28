@@ -2,6 +2,7 @@ package danielMacedo.tarefa_api.business;
 
 import danielMacedo.tarefa_api.dto.TarefaCreateDTO;
 import danielMacedo.tarefa_api.dto.TarefaReplaceDTO;
+import danielMacedo.tarefa_api.dto.TarefaResponseDTO;
 import danielMacedo.tarefa_api.dto.TarefaUpdateDTO;
 import danielMacedo.tarefa_api.exceptions.BadRequestException;
 import danielMacedo.tarefa_api.exceptions.ResourceNotFoundException;
@@ -30,15 +31,19 @@ public class TarefaService {
     }
 
     @Transactional(readOnly = true)
-    public List<Tarefa> listarTarefas(){
-        return tarefaRepository.findAll();
+    public List<TarefaResponseDTO> listarTarefas(){
+        return tarefaRepository.findAll()
+                .stream()
+                .map(TarefaResponseDTO::fromEntity)
+                .toList();
     }
 
     @Transactional(readOnly = true)
-    public Tarefa buscarTarefaPorId(Integer id){
-        return tarefaRepository.findById(id).orElseThrow(
+    public TarefaResponseDTO buscarTarefaPorId(Integer id){
+        Tarefa tarefa = tarefaRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("id não encontrado")
         );
+        return TarefaResponseDTO.fromEntity(tarefa);
     }
 
     @Transactional

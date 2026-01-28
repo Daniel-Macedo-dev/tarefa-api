@@ -3,6 +3,7 @@ package danielMacedo.tarefa_api.controller;
 import danielMacedo.tarefa_api.business.TarefaService;
 import danielMacedo.tarefa_api.dto.TarefaCreateDTO;
 import danielMacedo.tarefa_api.dto.TarefaReplaceDTO;
+import danielMacedo.tarefa_api.dto.TarefaResponseDTO;
 import danielMacedo.tarefa_api.dto.TarefaUpdateDTO;
 import danielMacedo.tarefa_api.infrastructure.entities.Tarefa;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +25,11 @@ public class TarefaController {
         return ResponseEntity.ok().build();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Tarefa> buscarTarefaPorId(@PathVariable Integer id){
+    public ResponseEntity<TarefaResponseDTO> buscarTarefaPorId(@PathVariable Integer id){
         return ResponseEntity.ok(tarefaService.buscarTarefaPorId(id));
     }
     @GetMapping
-    public ResponseEntity<List<Tarefa>> listarTarefas(){
+    public ResponseEntity<List<TarefaResponseDTO>> listarTarefas(){
         return ResponseEntity.ok(tarefaService.listarTarefas());
     }
     @PutMapping("/{id}")

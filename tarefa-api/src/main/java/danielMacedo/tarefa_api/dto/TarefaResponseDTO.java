@@ -9,7 +9,7 @@ public record TarefaResponseDTO(
         String titulo,
         String descricao,
         Boolean status,
-        LocalDateTime creatAt
+        LocalDateTime createdAt
 ) {
     public static TarefaResponseDTO fromEntity (Tarefa tarefa){
         return new TarefaResponseDTO(

@@ -17,7 +17,7 @@ public record TarefaResponseDTO(
                 tarefa.getTitulo(),
                 tarefa.getDescricao(),
                 tarefa.getStatus(),
-                tarefa.getCreateAt()
+                tarefa.getCreatedAt()
         );
     }
 }

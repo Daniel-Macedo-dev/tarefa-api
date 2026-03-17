@@ -31,12 +31,12 @@ public class Tarefa {
     private Boolean status;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createAt = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @PrePersist
     public void prePersist(){
         if (this.status == null) this.status = false;
-        this.createAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
     }
 }
 

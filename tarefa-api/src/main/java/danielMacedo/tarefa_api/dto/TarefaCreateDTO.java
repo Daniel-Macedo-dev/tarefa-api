@@ -1,6 +1,8 @@
 package danielMacedo.tarefa_api.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public record TarefaCreateDTO (
-        String titulo,
-        String descricao
-){}
+        @NotBlank String titulo,
+        @NotBlank String descricao
+        ){}

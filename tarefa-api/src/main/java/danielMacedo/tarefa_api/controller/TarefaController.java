@@ -6,6 +6,7 @@ import danielMacedo.tarefa_api.dto.TarefaReplaceDTO;
 import danielMacedo.tarefa_api.dto.TarefaResponseDTO;
 import danielMacedo.tarefa_api.dto.TarefaUpdateDTO;
 import danielMacedo.tarefa_api.infrastructure.entities.Tarefa;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class TarefaController {
     private final TarefaService tarefaService;
 
     @PostMapping
-    public ResponseEntity<Void> salvarTarefa(@RequestBody TarefaCreateDTO dto){
+    public ResponseEntity<Void> salvarTarefa(@RequestBody @Valid TarefaCreateDTO dto){
         tarefaService.salvarTarefa(dto);
         return ResponseEntity.ok().build();
     }

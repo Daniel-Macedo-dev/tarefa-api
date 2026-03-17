@@ -41,7 +41,7 @@ public class TarefaService {
     @Transactional(readOnly = true)
     public TarefaResponseDTO buscarTarefaPorId(Integer id){
         Tarefa tarefa = tarefaRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("id não encontrado")
+                () -> new ResourceNotFoundException("Tarefa não encontrada com id: " + id)
         );
         return TarefaResponseDTO.fromEntity(tarefa);
     }
@@ -49,7 +49,7 @@ public class TarefaService {
     @Transactional
     public Tarefa substituirTarefa(Integer id, TarefaReplaceDTO dto){
         Tarefa tarefa = tarefaRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("id não encontrado"));
+                () -> new ResourceNotFoundException("Tarefa não encontrada com id: " + id));
         tarefa.setTitulo(dto.titulo());
         tarefa.setDescricao(dto.descricao());
         tarefa.setStatus(dto.status());
@@ -60,7 +60,7 @@ public class TarefaService {
     @Transactional
     public Tarefa atualizarTarefa(Integer id, TarefaUpdateDTO dto){
         Tarefa tarefa = tarefaRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("id não encontrado"));
+                () -> new ResourceNotFoundException("Tarefa não encontrada com id: " + id));
         if (dto.titulo()!=null){
             if (dto.titulo().isBlank()){
                 throw new BadRequestException("Título não pode ser vazio");
@@ -82,7 +82,7 @@ public class TarefaService {
     @Transactional
     public void deletarTarefaPorId(Integer id){
         if (!tarefaRepository.existsById(id)) {
-            throw new ResourceNotFoundException("id não encontrado");
+            throw new ResourceNotFoundException("Tarefa não encontrada com id: " + id);
         } else {
             tarefaRepository.deleteById(id);
         }

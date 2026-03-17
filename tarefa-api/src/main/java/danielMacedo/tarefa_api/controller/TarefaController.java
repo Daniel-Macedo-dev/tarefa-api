@@ -33,18 +33,18 @@ public class TarefaController {
         return ResponseEntity.ok(tarefaService.listarTarefas());
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Tarefa> substituirTarefa(
+    public ResponseEntity<TarefaResponseDTO> substituirTarefa(
             @PathVariable Integer id,
             @RequestBody TarefaReplaceDTO dto){
         Tarefa atualizada = tarefaService.substituirTarefa(id, dto);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(TarefaResponseDTO.fromEntity(atualizada));
     }
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Tarefa> atualizarTarefa(
+    public ResponseEntity<TarefaResponseDTO> atualizarTarefa(
             @PathVariable Integer id,
             @RequestBody TarefaUpdateDTO dto){
         Tarefa atualizada = tarefaService.atualizarTarefa(id, dto);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(TarefaResponseDTO.fromEntity(atualizada));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarTarefaPorId(@PathVariable Integer id){

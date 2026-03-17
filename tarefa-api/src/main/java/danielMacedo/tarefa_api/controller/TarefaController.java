@@ -36,7 +36,7 @@ public class TarefaController {
     @PutMapping("/{id}")
     public ResponseEntity<TarefaResponseDTO> substituirTarefa(
             @PathVariable Integer id,
-            @RequestBody TarefaReplaceDTO dto){
+            @Valid @RequestBody TarefaReplaceDTO dto){
         Tarefa atualizada = tarefaService.substituirTarefa(id, dto);
         return ResponseEntity.ok(TarefaResponseDTO.fromEntity(atualizada));
     }

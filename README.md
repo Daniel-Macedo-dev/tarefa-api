@@ -1,80 +1,214 @@
-# ✅📋 Tarefa API ✅📋
+# ✅ Tarefa API
 
-Projeto em Java para gerenciar tarefas, aplicando boas práticas de arquitetura com **camadas separadas** e regras de negócio claras.
+API REST desenvolvida com Java e Spring Boot para gerenciamento de tarefas, com foco em organização em camadas, operações CRUD e boas práticas de desenvolvimento backend.
 
-## 📝 Descrição
+## 📌 Descrição
 
-Esta API REST em Java permite cadastrar, listar, buscar, atualizar e remover tarefas.  
-Utiliza o banco de dados em memória **H2**, facilitando testes e desenvolvimento sem necessidade de configuração externa.
+A Tarefa API permite:
 
-A arquitetura está organizada em **camadas**:  
-- **Controller**: define os endpoints REST  
-- **Service**: contém as regras de negócio  
-- **Repository**: acesso ao banco de dados  
-- **Entities**: mapeamento das tabelas  
+- cadastrar tarefas
+- listar tarefas
+- buscar tarefa por ID
+- substituir uma tarefa por completo
+- atualizar parcialmente uma tarefa
+- remover tarefa por ID
 
-## ⚙️ Tecnologias
+O projeto utiliza banco de dados H2 em memória, facilitando testes e desenvolvimento sem necessidade de configuração externa.
 
-- Java 24+
-- Spring Boot
+## 🛠️ Tecnologias utilizadas
+
+- Java 24
+- Spring Boot 3.5.5
+- Spring Web
 - Spring Data JPA
-- Banco de dados H2 (em memória)
-- Maven
+- H2 Database
 - Lombok
+- Springdoc OpenAPI
+- Maven
 
-## 🗂️ Estrutura do Projeto
+## 🧱 Estrutura do projeto
 
-- `controller`: endpoints REST  
-- `business`: regras de negócio (services)  
-- `infrastructure.entities`: entidades JPA  
-- `infrastructure.repository`: repositórios (JPA)  
+```text
+tarefa-api/
+├── swagger/
+│   └── openapi.yaml
+├── tarefa-api/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/danielMacedo/tarefa_api/
+│   │   │   │   ├── business
+│   │   │   │   ├── controller
+│   │   │   │   ├── dto
+│   │   │   │   ├── exceptions
+│   │   │   │   └── infrastructure
+│   │   │   │       ├── entities
+│   │   │   │       └── repository
+│   │   │   └── resources/
+│   │   │       └── application.properties
+│   │   └── test/
+│   ├── pom.xml
+│   ├── mvnw
+│   └── mvnw.cmd
+└── README.md
+```
+
+## 🏗️ Organização em camadas
+
+- `controller`: exposição dos endpoints REST
+- `business`: regras de negócio
+- `dto`: objetos de entrada e saída da API
+- `exceptions`: tratamento global de exceções
+- `infrastructure.entities`: entidades JPA
+- `infrastructure.repository`: acesso aos dados com Spring Data JPA
 
 ## 🚀 Funcionalidades
 
-- **Cadastrar nova tarefa** (`POST /tarefa`)  
-- **Listar todas as tarefas** (`GET /tarefa`)  
-- **Buscar tarefa por ID** (`GET /tarefa/{id}`)  
-- **Remover tarefa por ID** (`DELETE /tarefa/{id}`)  
-- **Atualizar tarefa (substituição completa)** (`PUT /tarefa/{id}`)  
-- **Atualizar apenas o status da tarefa** (`PATCH /tarefa/{id}/status`)
+- **POST** `/tarefa` → criar tarefa
+- **GET** `/tarefa` → listar tarefas
+- **GET** `/tarefa/{id}` → buscar tarefa por ID
+- **PUT** `/tarefa/{id}` → substituir tarefa por completo
+- **PATCH** `/tarefa/{id}/status` → atualizar parcialmente uma tarefa
+- **DELETE** `/tarefa/{id}` → remover tarefa por ID
 
-## 📄 Documentação OpenAPI
-O arquivo [`openapi.yaml`](openapi.yaml) contém a especificação completa da API de tarefas.
-  
+## 📝 Regras atuais da API
 
-## ▶️ Como rodar
+- Ao criar uma tarefa, o campo `status` é definido como `false`.
+- A entidade possui o campo `createdAt`, preenchido automaticamente no momento da persistência.
+- O endpoint `PATCH /tarefa/{id}/status` atualmente permite atualização parcial de:
+  - `titulo`
+  - `descricao`
+  - `status`
 
-1. Clone o repositório:
+> **Observação:** apesar de a rota terminar com `/status`, o comportamento atual do serviço permite atualizar qualquer combinação desses três campos.
+
+## ▶️ Como executar
+
+### 1. Clonar o repositório
 
 ```bash
-git clone https://github.com/Daniel-Macedo-dev/tarefa_api.git
+git clone https://github.com/Daniel-Macedo-dev/tarefa-api.git
 ```
 
-2. Abra o projeto na IDE (IntelliJ, Eclipse, etc).  
-3. Configure JDK 17+.  
-4. Execute:
+### 2. Entrar na pasta do projeto
+
+```bash
+cd tarefa-api/tarefa-api
+```
+
+### 3. Executar a aplicação
+
+No Linux/macOS:
+
+```bash
+./mvnw spring-boot:run
+```
+
+No Windows:
+
+```bash
+mvnw.cmd spring-boot:run
+```
+
+Ou, se preferir:
 
 ```bash
 mvn spring-boot:run
 ```
 
-5. Acesse a API:
+## 🌐 Acessos locais
 
-```
+### API
+
+```text
 http://localhost:8080/tarefa
 ```
 
-6. Para acessar o console web do banco H2 (útil para ver e manipular dados):
+### Console do H2
 
-```
+```text
 http://localhost:8080/h2-console
 ```
 
-- **JDBC URL:** `jdbc:h2:mem:testdb`  
-- **Usuário:** `sa`  
-- **Senha:** *(deixe em branco)*
+Use os seguintes dados no console:
 
----
+- **JDBC URL:** `jdbc:h2:mem:meubanco`
+- **User Name:** `sa`
+- **Password:** deixe em branco
 
-Qualquer dúvida ou sugestão, fique à vontade para abrir uma issue ou pull request.  
-Obrigado por conferir o projeto! 🧊🥳
+## 📄 Documentação OpenAPI
+
+A especificação manual da API está disponível em:
+
+```text
+swagger/openapi.yaml
+```
+
+## ✅ Exemplos de requisição
+
+### Criar tarefa
+
+```json
+{
+  "titulo": "Estudar Spring Boot",
+  "descricao": "Revisar controller, service e repository"
+}
+```
+
+### Substituir tarefa por completo
+
+```json
+{
+  "titulo": "Estudar Java",
+  "descricao": "Revisar orientação a objetos",
+  "status": true
+}
+```
+
+### Atualizar tarefa parcialmente
+
+```json
+{
+  "titulo": "Estudar Spring",
+  "status": true
+}
+```
+
+Também é possível atualizar apenas um campo:
+
+```json
+{
+  "descricao": "Revisar DTOs e tratamento de exceções"
+}
+```
+
+## 📦 Estrutura de resposta
+
+A API utiliza `TarefaResponseDTO` nas respostas de leitura e atualização, contendo:
+
+- `id`
+- `titulo`
+- `descricao`
+- `status`
+- `createdAt`
+
+## ❗ Tratamento de erros
+
+O projeto possui tratamento global para:
+
+- recurso não encontrado (`404 Not Found`)
+- requisição inválida (`400 Bad Request`)
+- erros genéricos (`500 Internal Server Error`)
+
+## 📚 Objetivo do projeto
+
+Este projeto foi desenvolvido para praticar:
+
+- construção de APIs REST com Spring Boot
+- separação em camadas
+- uso de DTOs
+- persistência com JPA
+- tratamento de exceções
+- documentação de API
+
+## 👨‍💻 Autor
+Daniel Macedo

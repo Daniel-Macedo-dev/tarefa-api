@@ -21,9 +21,9 @@ public class TarefaController {
     private final TarefaService tarefaService;
 
     @PostMapping
-    public ResponseEntity<Void> salvarTarefa(@RequestBody @Valid TarefaCreateDTO dto){
-        tarefaService.salvarTarefa(dto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<TarefaResponseDTO> salvarTarefa(@RequestBody @Valid TarefaCreateDTO dto){
+        Tarefa tarefaSalva = tarefaService.salvarTarefa(dto);
+        return ResponseEntity.status(201).body(TarefaResponseDTO.fromEntity(tarefaSalva));
     }
     @GetMapping("/{id}")
     public ResponseEntity<TarefaResponseDTO> buscarTarefaPorId(@PathVariable Integer id){

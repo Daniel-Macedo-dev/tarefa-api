@@ -15,7 +15,7 @@ A arquitetura está organizada em **camadas**:
 
 ## ⚙️ Tecnologias
 
-- Java 17+
+- Java 24+
 - Spring Boot
 - Spring Data JPA
 - Banco de dados H2 (em memória)

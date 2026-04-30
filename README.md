@@ -163,7 +163,6 @@ swagger/openapi.yaml
   "status": true
 }
 ```
-
 ### Atualizar tarefa parcialmente
 
 ```json

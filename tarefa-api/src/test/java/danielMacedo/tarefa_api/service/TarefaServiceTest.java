@@ -26,7 +26,7 @@ public class TarefaServiceTest {
 
     @Test
     void deveSalvarTarefaComStatusFalse(){
-        TarefaCreateDTO dto = new TarefaCreateDTO("Estudar testes", "aprender Mockito");
+        TarefaCreateDTO dto = new TarefaCreateDTO("Estudar testes", "Aprender Mockito");
 
         when(tarefaRepository.save(any(Tarefa.class))).thenAnswer(invocationOnMock -> {
             Tarefa tarefaRecebida = invocationOnMock.getArgument(0);
